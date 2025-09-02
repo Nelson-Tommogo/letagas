@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/bottom_nav.dart';
 import '../../widgets/custom_button.dart';
+import 'info/profile_screen.dart';
 import 'order_request_screen.dart';
 import 'order_tracking_screen.dart';
-import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -47,7 +47,8 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   double _sheetExtent = 0.25;
-  final DraggableScrollableController _sheetController = DraggableScrollableController();
+  final DraggableScrollableController _sheetController =
+      DraggableScrollableController();
 
   void _toggleSheet() {
     if (_sheetExtent > 0.25) {
@@ -155,7 +156,8 @@ class _HomeContentState extends State<HomeContent> {
               return Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(24)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.08),
@@ -167,7 +169,8 @@ class _HomeContentState extends State<HomeContent> {
                 child: SingleChildScrollView(
                   controller: scrollController,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -185,7 +188,8 @@ class _HomeContentState extends State<HomeContent> {
                         ),
                         // Where to (floating)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(30),
@@ -209,7 +213,8 @@ class _HomeContentState extends State<HomeContent> {
                                   decoration: InputDecoration(
                                     hintText: "Where to?",
                                     border: InputBorder.none,
-                                    hintStyle: TextStyle(color: Color(0xFF8D99AE)),
+                                    hintStyle:
+                                        TextStyle(color: Color(0xFF8D99AE)),
                                   ),
                                   style: TextStyle(
                                     color: Color(0xFF2B2D42),
@@ -224,7 +229,8 @@ class _HomeContentState extends State<HomeContent> {
                         // Services Offered (card)
                         Card(
                           elevation: 2,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
@@ -240,32 +246,39 @@ class _HomeContentState extends State<HomeContent> {
                                 ),
                                 const SizedBox(height: 10),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Column(
                                         children: [
-                                          Icon(Icons.local_gas_station, color: Color(0xFFFF6B35)),
+                                          Icon(Icons.local_gas_station,
+                                              color: Color(0xFFFF6B35)),
                                           const SizedBox(height: 4),
-                                          Text("LPG Delivery", textAlign: TextAlign.center),
+                                          Text("LPG Delivery",
+                                              textAlign: TextAlign.center),
                                         ],
                                       ),
                                     ),
                                     Expanded(
                                       child: Column(
                                         children: [
-                                          Icon(Icons.build, color: Color(0xFF8D99AE)),
+                                          Icon(Icons.build,
+                                              color: Color(0xFF8D99AE)),
                                           const SizedBox(height: 4),
-                                          Text("Regulator & Hose", textAlign: TextAlign.center),
+                                          Text("Regulator & Hose",
+                                              textAlign: TextAlign.center),
                                         ],
                                       ),
                                     ),
                                     Expanded(
                                       child: Column(
                                         children: [
-                                          Icon(Icons.support_agent, color: Color(0xFF2B2D42)),
+                                          Icon(Icons.support_agent,
+                                              color: Color(0xFF2B2D42)),
                                           const SizedBox(height: 4),
-                                          Text("Support", textAlign: TextAlign.center),
+                                          Text("Support",
+                                              textAlign: TextAlign.center),
                                         ],
                                       ),
                                     ),
@@ -288,13 +301,15 @@ class _HomeContentState extends State<HomeContent> {
                         ),
                         const SizedBox(height: 8),
                         ListTile(
-                          leading: Icon(Icons.history, color: Color(0xFF8D99AE)),
+                          leading:
+                              Icon(Icons.history, color: Color(0xFF8D99AE)),
                           title: Text("Order #1234 - Delivered"),
                           subtitle: Text("13kg LPG Gas Cylinder"),
                           trailing: Text("Ksh 3,000"),
                         ),
                         ListTile(
-                          leading: Icon(Icons.history, color: Color(0xFF8D99AE)),
+                          leading:
+                              Icon(Icons.history, color: Color(0xFF8D99AE)),
                           title: Text("Order #1233 - Cancelled"),
                           subtitle: Text("6kg LPG Gas Cylinder"),
                           trailing: Text("Ksh 1,500"),
