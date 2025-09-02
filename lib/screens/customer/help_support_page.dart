@@ -12,40 +12,49 @@ class HelpSupportPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSupportOption(
-            context,
+          _buildSupportExpansion(
             Icons.help_outline,
             'FAQs',
             'Frequently asked questions',
-            () {},
+            [
+              'How do I place an order?',
+              'How do I track my delivery?',
+              'What payment methods are accepted?',
+            ],
           ),
-          _buildSupportOption(
-            context,
+          _buildSupportExpansion(
             Icons.contact_support,
             'Contact Support',
             'Get in touch with our support team',
-            () {},
+            [
+              'Phone: +254 700 123 456',
+              'Email: support@gasapp.com',
+              'Available 24/7',
+            ],
           ),
-          _buildSupportOption(
-            context,
+          _buildSupportExpansion(
             Icons.description,
             'Terms of Service',
             'Read our terms and conditions',
-            () {},
+            [
+              'View our terms and conditions on our website.',
+            ],
           ),
-          _buildSupportOption(
-            context,
+          _buildSupportExpansion(
             Icons.security,
             'Privacy Policy',
             'Learn about our privacy practices',
-            () {},
+            [
+              'Your data is protected and handled securely.',
+            ],
           ),
-          _buildSupportOption(
-            context,
+          _buildSupportExpansion(
             Icons.feedback,
             'Send Feedback',
             'Share your experience with us',
-            () {},
+            [
+              'We value your feedback! Email us at feedback@gasapp.com.',
+            ],
           ),
           const SizedBox(height: 24),
           const Card(
@@ -73,16 +82,24 @@ class HelpSupportPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSupportOption(BuildContext context, IconData icon, String title,
-      String subtitle, VoidCallback onTap) {
+  Widget _buildSupportExpansion(
+    IconData icon,
+    String title,
+    String subtitle,
+    List<String> details,
+  ) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
+      child: ExpansionTile(
         leading: Icon(icon, color: const Color(0xFFF05E23)),
         title: Text(title),
         subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: onTap,
+        children: details
+            .map((detail) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  child: Text(detail),
+                ))
+            .toList(),
       ),
     );
   }
