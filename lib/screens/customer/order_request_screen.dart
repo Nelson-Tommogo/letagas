@@ -12,6 +12,7 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
   String _selectedPaymentMethod = 'Cash on Delivery';
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _instructionsController = TextEditingController();
+  final TextEditingController _brandController = TextEditingController(); // Add this
   bool _isSubmitting = false;
 
   // Brand colors
@@ -139,6 +140,38 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
                 icon: Icon(Icons.arrow_drop_down, color: _primaryColor),
                 dropdownColor: Colors.white,
                 style: TextStyle(color: _textColor, fontSize: 16),
+              ),
+            ),
+
+            // Gas Brand/Type Field
+            const SizedBox(height: 20),
+            _buildSectionHeader('Gas Brand/Type'),
+            const SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                controller: _brandController,
+                decoration: InputDecoration(
+                  hintText: 'Enter gas brand/type (e.g. Total, Oryx, Taifa...)',
+                  hintStyle: TextStyle(color: _hintColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.all(16),
+                ),
               ),
             ),
 
