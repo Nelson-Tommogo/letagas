@@ -18,16 +18,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'title': 'Quick Gas Delivery',
       'description':
           'Get your gas cylinders delivered to your doorstep within minutes, anytime you need it',
+      'image': 'assets/images/quickdelivery.jpg',
     },
     {
       'title': 'Track Your Order',
       'description':
           'Real-time tracking of your gas delivery from our depot to your location',
+      'image': 'assets/images/trackgasorder.jpg',
     },
     {
       'title': 'Safe & Secure',
       'description':
           'Our delivery personnel are trained professionals ensuring safe handling of your gas cylinders',
+      'image': 'assets/images/trackorder.jpg',
     },
   ];
 
@@ -48,17 +51,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           child: Column(
             children: [
-              // App Logo at the top
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Image.asset(
-                  'assets/images/letagaslogo.png', // Your logo path
-                  height: 60,
-                  fit: BoxFit.contain,
+              // Show logo only on the first screen
+              if (_currentPage == 0) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0, bottom: 10),
+                  child: Image.asset(
+                    'assets/images/letagaslogo.png',
+                    height: 50,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
+              ],
 
-              // Skip button
+              // Skip button - show on all screens
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
@@ -76,6 +81,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       style: TextStyle(
                         color: Color(0xFF8D99AE),
                         fontWeight: FontWeight.w600,
+                        fontSize: 16,
                       ),
                     ),
                   ),
@@ -94,32 +100,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Logo container with brand colors
+                          // Image with decorative frame
                           Container(
-                            height: 200,
-                            width: 200,
-                            padding: EdgeInsets.all(20),
+                            height: 250,
+                            margin: const EdgeInsets.only(bottom: 30),
                             decoration: BoxDecoration(
-                              color:
-                                  Color(0xFFFFF6F2), // Light orange background
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Color(0xFFFF6B35).withOpacity(0.2),
-                                width: 2,
-                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 15,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
                             ),
-                            child: Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
                               child: Image.asset(
-                                'assets/images/letagaslogo.png', // Your logo path
-                                fit: BoxFit.contain,
+                                onboardingData[index]['image']!,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 40),
+
                           Text(
                             onboardingData[index]['title']!,
                             style: TextStyle(
@@ -130,14 +138,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 16),
-                          Text(
-                            onboardingData[index]['description']!,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF8D99AE),
-                              height: 1.5,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              onboardingData[index]['description']!,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF8D99AE),
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
@@ -147,29 +158,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
 
               // Page indicators
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  onboardingData.length,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    height: 8,
-                    width: _currentPage == index ? 24 : 8,
-                    decoration: BoxDecoration(
-                      color: _currentPage == index
-                          ? Color(0xFFFF6B35)
-                          : Color(0xFF8D99AE).withOpacity(0.4),
-                      borderRadius: BorderRadius.circular(4),
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    onboardingData.length,
+                    (index) => AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 6),
+                      height: 8,
+                      width: _currentPage == index ? 24 : 8,
+                      decoration: BoxDecoration(
+                        color: _currentPage == index
+                            ? Color(0xFFFF6B35)
+                            : Color(0xFF8D99AE).withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
 
               // Next/Get Started button
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -194,7 +208,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      elevation: 0,
+                      elevation: 2,
                     ),
                     child: Text(
                       _currentPage == onboardingData.length - 1
@@ -211,24 +225,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
               // Back button (not shown on first page)
               if (_currentPage > 0) ...[
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    _pageController.previousPage(
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Text(
-                    'Back',
-                    style: TextStyle(
-                      color: Color(0xFF8D99AE),
-                      fontWeight: FontWeight.w600,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: TextButton(
+                    onPressed: () {
+                      _pageController.previousPage(
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    child: Text(
+                      'Back',
+                      style: TextStyle(
+                        color: Color(0xFF8D99AE),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
               ],
-              const SizedBox(height: 20),
             ],
           ),
         ),
