@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'delivery_address_page.dart';
+import 'help_support_page.dart';
+import 'order_history_page.dart';
+import 'payment_methods_page.dart';
+// Import the new pages we'll create
+import 'personal_information_page.dart';
+import 'settings_page.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     // Brand colors
-    final Color primaryColor = const Color(0xFFF05E23); // Orange flame color
-    final Color secondaryColor = const Color(0xFF333333); // Dark gray
-    final Color accentColor = const Color(0xFFFFD700); // Gold/yellow accent
-    final Color lightBackground = const Color(0xFFF8F9FA); // Light background
+    final Color primaryColor = const Color(0xFFF05E23);
+    final Color secondaryColor = const Color(0xFF333333);
+    final Color lightBackground = const Color(0xFFF8F9FA);
     final Color cardColor = Colors.white;
 
     return Scaffold(
@@ -26,6 +33,7 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
+              // Profile Header
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -87,6 +95,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
+
+              // Profile Options
               Container(
                 decoration: BoxDecoration(
                   color: cardColor,
@@ -102,21 +112,43 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    _buildProfileOption(Icons.person_outline,
-                        'Personal Information', primaryColor),
-                    _buildDivider(),
-                    _buildProfileOption(Icons.location_on_outlined,
-                        'Delivery Addresses', primaryColor),
-                    _buildDivider(),
-                    _buildProfileOption(Icons.credit_card_outlined,
-                        'Payment Methods', primaryColor),
+                    _buildProfileOption(
+                      context,
+                      Icons.person_outline,
+                      'Personal Information',
+                      primaryColor,
+                      const PersonalInformationPage(),
+                    ),
                     _buildDivider(),
                     _buildProfileOption(
-                        Icons.history, 'Order History', primaryColor),
+                      context,
+                      Icons.location_on_outlined,
+                      'Delivery Addresses',
+                      primaryColor,
+                      const DeliveryAddressPage(),
+                    ),
+                    _buildDivider(),
+                    _buildProfileOption(
+                      context,
+                      Icons.credit_card_outlined,
+                      'Payment Methods',
+                      primaryColor,
+                      const PaymentMethodsPage(),
+                    ),
+                    _buildDivider(),
+                    _buildProfileOption(
+                      context,
+                      Icons.history,
+                      'Order History',
+                      primaryColor,
+                      const OrderHistoryPage(),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 16),
+
+              // Settings & Support
               Container(
                 decoration: BoxDecoration(
                   color: cardColor,
@@ -133,19 +165,31 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildProfileOption(
-                        Icons.settings_outlined, 'Settings', primaryColor),
+                      context,
+                      Icons.settings_outlined,
+                      'Settings',
+                      primaryColor,
+                      const SettingsPage(),
+                    ),
                     _buildDivider(),
                     _buildProfileOption(
-                        Icons.help_outline, 'Help & Support', primaryColor),
+                      context,
+                      Icons.help_outline,
+                      'Help & Support',
+                      primaryColor,
+                      const HelpSupportPage(),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 24),
+
+              // Logout Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Logout logic
+                    _showLogoutDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryColor,
@@ -168,7 +212,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileOption(IconData icon, String title, Color primaryColor) {
+  Widget _buildProfileOption(BuildContext context, IconData icon, String title,
+      Color primaryColor, Widget page) {
     return ListTile(
       leading: Icon(icon, color: primaryColor),
       title: Text(
@@ -180,7 +225,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing:
           Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
     );
   }
 
@@ -191,6 +241,31 @@ class ProfileScreen extends StatelessWidget {
       color: Colors.grey[100],
       indent: 16,
       endIndent: 16,
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                // Add logout logic here
+              },
+              child: const Text('Logout', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

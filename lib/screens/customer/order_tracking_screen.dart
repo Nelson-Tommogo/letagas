@@ -9,10 +9,10 @@ class OrderTrackingScreen extends StatefulWidget {
 
 class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
   // Brand colors
-  final Color primaryColor = const Color(0xFFF05E23); // Orange flame color
-  final Color secondaryColor = const Color(0xFF333333); // Dark gray
-  final Color accentColor = const Color(0xFFFFD700); // Gold/yellow accent
-  final Color lightBackground = const Color(0xFFF8F9FA); // Light background
+  final Color primaryColor = const Color(0xFFF05E23);
+  final Color secondaryColor = const Color(0xFF333333);
+  final Color accentColor = const Color(0xFFFFD700);
+  final Color lightBackground = const Color(0xFFF8F9FA);
 
   final List<Map<String, dynamic>> _orders = [
     {
