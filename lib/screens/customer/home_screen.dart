@@ -291,13 +291,13 @@ class _HomeContentState extends State<HomeContent> {
                           leading: Icon(Icons.history, color: Color(0xFF8D99AE)),
                           title: Text("Order #1234 - Delivered"),
                           subtitle: Text("13kg LPG Gas Cylinder"),
-                          trailing: Text("\$30"),
+                          trailing: Text("Ksh 3,000"),
                         ),
                         ListTile(
                           leading: Icon(Icons.history, color: Color(0xFF8D99AE)),
                           title: Text("Order #1233 - Cancelled"),
                           subtitle: Text("6kg LPG Gas Cylinder"),
-                          trailing: Text("\$15"),
+                          trailing: Text("Ksh 1,500"),
                         ),
                         const SizedBox(height: 80), // Space for button
                       ],
