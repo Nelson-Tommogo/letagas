@@ -40,10 +40,11 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.local_gas_station,
-              size: 80,
-              color: Colors.white,
+            // Use your logo with background
+            Image.asset(
+              'assets/images/letagaslogobackground.png',
+              height: 150,
+              width: 150,
             ),
             const SizedBox(height: 20),
             const Text(

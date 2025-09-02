@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/bottom_nav.dart';
+import '../../widgets/custom_button.dart';
 import 'order_request_screen.dart';
 import 'order_tracking_screen.dart';
 import 'profile_screen.dart';
@@ -46,9 +47,22 @@ class HomeContent extends StatelessWidget {
       children: [
         // Map View (Placeholder)
         Container(
-          color: Colors.grey[200],
-          child: const Center(
-            child: Icon(Icons.map, size: 100, color: Colors.grey),
+          color: const Color(0xFFF8F9FA),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.map, size: 100, color: Color(0xFF8D99AE)),
+                const SizedBox(height: 10),
+                Text(
+                  "Map View",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: const Color(0xFF8D99AE),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
 
@@ -58,7 +72,7 @@ class HomeContent extends StatelessWidget {
           left: 16,
           right: 16,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(30),
@@ -70,22 +84,26 @@ class HomeContent extends StatelessWidget {
                 ),
               ],
             ),
-            child: const Row(
+            child: Row(
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.blue,
+                const CircleAvatar(
+                  backgroundColor: Color(0xFFFF6B35),
                   child: Icon(Icons.person, color: Colors.white),
                 ),
-                SizedBox(width: 10),
-                Expanded(
+                const SizedBox(width: 12),
+                const Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: "Enter delivery address",
                       border: InputBorder.none,
+                      hintStyle: TextStyle(color: Color(0xFF8D99AE)),
+                    ),
+                    style: TextStyle(
+                      color: Color(0xFF2B2D42),
                     ),
                   ),
                 ),
-                Icon(Icons.menu),
+                Icon(Icons.menu, color: Color(0xFF2B2D42)),
               ],
             ),
           ),
@@ -112,41 +130,65 @@ class HomeContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Request Gas Delivery",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xFF2B2D42),
                   ),
                 ),
-                const SizedBox(height: 10),
-                const Row(
-                  children: [
-                    Icon(Icons.local_gas_station, color: Colors.orange),
-                    SizedBox(width: 10),
-                    Text("13kg LPG Gas Cylinder"),
-                    Spacer(),
-                    Text("\$25", style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                const Row(
-                  children: [
-                    Icon(Icons.delivery_dining, color: Colors.blue),
-                    SizedBox(width: 10),
-                    Text("Delivery Fee"),
-                    Spacer(),
-                    Text("\$5", style: TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-                const Divider(height: 20),
+                const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Text(
+                    Icon(Icons.local_gas_station, color: Color(0xFFFF6B35)),
+                    const SizedBox(width: 10),
+                    Text(
+                      "13kg LPG Gas Cylinder",
+                      style: TextStyle(
+                        color: Color(0xFF2B2D42),
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "\$25",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2B2D42),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(Icons.delivery_dining, color: Color(0xFF2B2D42)),
+                    const SizedBox(width: 10),
+                    Text(
+                      "Delivery Fee",
+                      style: TextStyle(
+                        color: Color(0xFF2B2D42),
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "\$5",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2B2D42),
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(height: 20, color: Color(0xFF8D99AE)),
+                Row(
+                  children: [
+                    Text(
                       "Total",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
+                        color: Color(0xFF2B2D42),
                       ),
                     ),
                     const Spacer(),
@@ -155,38 +197,22 @@ class HomeContent extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
+                        color: Color(0xFFFF6B35),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const OrderRequestScreen()),
-                      );
-                    },
-                    child: const Text(
-                      "REQUEST DELIVERY",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                CustomButton(
+                  text: "REQUEST DELIVERY",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const OrderRequestScreen()),
+                    );
+                  },
+                  height: 50,
                 ),
               ],
             ),

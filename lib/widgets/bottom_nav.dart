@@ -29,8 +29,16 @@ class BottomNav extends StatelessWidget {
           label: 'Profile',
         ),
       ],
-      selectedItemColor: Colors.blue,
-      unselectedItemColor: Colors.grey,
+      // Brand colors - flame-inspired theme
+      selectedItemColor: Color(0xFFFF6B35), // Vibrant orange (flame color)
+      unselectedItemColor: Color(0xFF8D99AE), // Soft gray-blue (neutral)
+      backgroundColor:
+          Color(0xFF2B2D42), // Dark blue-gray (professional contrast)
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      type: BottomNavigationBarType.fixed,
+      selectedFontSize: 12,
+      unselectedFontSize: 12,
     );
   }
 }
