@@ -13,28 +13,41 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
+  static const Color primaryColor = Color(0xFFFF6B35);
+  static const Color textColor = Color(0xFF8D99AE);
+
   final List<Map<String, String>> onboardingData = [
+    {
+      'title': 'Welcome to LetaGas',
+      'description':
+          'Fast, safe, and reliable gas delivery at your fingertips.',
+      'image': 'logo', // Special marker for first screen
+    },
     {
       'title': 'Quick Gas Delivery',
       'description':
-          'Get your gas cylinders delivered to your doorstep within minutes, anytime you need it',
+          'Get your gas cylinders delivered to your doorstep within minutes, anytime you need it.',
       'image': 'assets/images/quickdelivery.jpg',
     },
     {
       'title': 'Track Your Order',
       'description':
-          'Real-time tracking of your gas delivery from our depot to your location',
-      'image':
-          'assets/images/trackorder.jpg', // Use trackorder.jpg for tracking screen
+          'Real-time tracking of your gas delivery from our depot to your location.',
+      'image': 'assets/images/trackgasorder.jpg',
     },
     {
       'title': 'Safe & Secure',
       'description':
-          'Our delivery personnel are trained professionals ensuring safe handling of your gas cylinders',
-      'image':
-          'assets/images/letagaslogo.png', // Use a different image for safety screen
+          'Our delivery personnel are trained professionals ensuring safe handling of your gas cylinders.',
+      'image': 'assets/images/trackorder.jpg',
     },
   ];
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,27 +58,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFFFFFFFF),
-                Color(0xFFF8F9FA),
-              ],
+              colors: [Color(0xFFFFFFFF), Color(0xFFF8F9FA)],
             ),
           ),
           child: Column(
             children: [
-              // Show logo only on the first screen
-              if (_currentPage == 0) ...[
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0, bottom: 10),
-                  child: Image.asset(
-                    'assets/images/letagaslogo.png',
-                    height: 50,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ],
-
-              // Skip button - show on all screens
+              // Skip button
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
@@ -75,21 +73,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const LoginScreen()),
+                          builder: (context) => const LoginScreen(),
+                        ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Skip',
                       style: TextStyle(
-                        color: Color(0xFF8D99AE),
+                        color: textColor,
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
                       ),
                     ),
                   ),
                 ),
               ),
 
+              // PageView
               Expanded(
                 flex: 3,
                 child: PageView.builder(
@@ -101,38 +100,63 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     });
                   },
                   itemBuilder: (context, index) {
+                    final data = onboardingData[index];
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Image with decorative frame
-                          Container(
-                            height: 250,
-                            margin: const EdgeInsets.only(bottom: 30),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 15,
-                                  offset: Offset(0, 5),
+                          // Image container
+                          if (data['image'] == 'logo') ...[
+                            // Logo for first page
+                            Container(
+                              height: 200,
+                              width: 200,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFFFF6F2),
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: primaryColor.withOpacity(0.2),
+                                  width: 2,
                                 ),
-                              ],
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  'assets/images/letagaslogo.png',
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
+                          ] else ...[
+                            // Card for other images
+                            Container(
+                              height: 220,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              clipBehavior: Clip.antiAlias,
                               child: Image.asset(
-                                onboardingData[index]['image']!,
+                                data['image']!,
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                               ),
                             ),
-                          ),
+                          ],
+                          const SizedBox(height: 40),
 
+                          // Title
                           Text(
-                            onboardingData[index]['title']!,
-                            style: TextStyle(
+                            data['title']!,
+                            style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF2B2D42),
@@ -140,17 +164,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 16),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(
-                              onboardingData[index]['description']!,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF8D99AE),
-                                height: 1.5,
-                              ),
-                              textAlign: TextAlign.center,
+
+                          // Description
+                          Text(
+                            data['description']!,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: textColor,
+                              height: 1.5,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
@@ -160,32 +183,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
 
               // Page indicators
-              Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    onboardingData.length,
-                    (index) => AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.symmetric(horizontal: 6),
-                      height: 8,
-                      width: _currentPage == index ? 24 : 8,
-                      decoration: BoxDecoration(
-                        color: _currentPage == index
-                            ? Color(0xFFFF6B35)
-                            : Color(0xFF8D99AE).withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  onboardingData.length,
+                  (index) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    height: 8,
+                    width: _currentPage == index ? 24 : 8,
+                    decoration: BoxDecoration(
+                      color: _currentPage == index
+                          ? primaryColor
+                          : textColor.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(4),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 40),
 
               // Next/Get Started button
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -199,18 +219,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
+                            builder: (context) => const LoginScreen(),
+                          ),
                         );
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFF6B35),
+                      backgroundColor: primaryColor,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      elevation: 2,
+                      elevation: 0,
                     ),
                     child: Text(
                       _currentPage == onboardingData.length - 1
@@ -225,28 +246,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
 
-              // Back button (not shown on first page)
-              if (_currentPage > 0) ...[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: TextButton(
-                    onPressed: () {
-                      _pageController.previousPage(
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    child: Text(
-                      'Back',
-                      style: TextStyle(
-                        color: Color(0xFF8D99AE),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
+              // Back button
+              AnimatedOpacity(
+                opacity: _currentPage > 0 ? 1 : 0,
+                duration: const Duration(milliseconds: 300),
+                child: TextButton(
+                  onPressed: _currentPage > 0
+                      ? () {
+                          _pageController.previousPage(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      : null,
+                  child: const Text(
+                    'Back',
+                    style: TextStyle(
+                      color: textColor,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-              ],
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
