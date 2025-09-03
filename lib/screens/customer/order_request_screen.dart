@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class OrderRequestScreen extends StatefulWidget {
-  const OrderRequestScreen({super.key});
+  final String deliveryType;
+  final int extraCharges;
+  final String deliveryTime;
+
+  const OrderRequestScreen({
+    super.key,
+    this.deliveryType = 'Normal',
+    this.extraCharges = 0,
+    this.deliveryTime = '30 minutes',
+  });
 
   @override
   State<OrderRequestScreen> createState() => _OrderRequestScreenState();
@@ -12,16 +21,17 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
   String _selectedPaymentMethod = 'Cash on Delivery';
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _instructionsController = TextEditingController();
-  final TextEditingController _brandController = TextEditingController(); // Add this
+  final TextEditingController _brandController = TextEditingController();
   bool _isSubmitting = false;
 
   // Brand colors
-  final Color _primaryColor = const Color(0xFFFF6B35); // Primary brand color
-  final Color _secondaryColor = const Color(0xFF2E3192); // Secondary from logo
+  final Color _primaryColor = const Color(0xFFFF6B35);
+  final Color _secondaryColor = const Color(0xFF2E3192);
   final Color _backgroundColor = const Color(0xFFF8FAFC);
   final Color _textColor = const Color(0xFF1E293B);
   final Color _hintColor = const Color(0xFF64748B);
   final Color _successColor = const Color(0xFF4CAF50);
+  final Color _warningColor = const Color(0xFFFF9800);
 
   final List<String> cylinderSizes = ['6kg', '13kg', '22kg', '50kg'];
   final List<String> paymentMethods = [
@@ -32,22 +42,24 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
 
   // Pricing information
   final Map<String, double> cylinderPrices = {
-    '6kg': 15.0,
-    '13kg': 25.0,
-    '22kg': 40.0,
-    '50kg': 80.0,
+    '6kg': 1500.0,
+    '13kg': 2500.0,
+    '22kg': 4000.0,
+    '50kg': 8000.0,
   };
-  final double deliveryFee = 5.0;
+  final double deliveryFee = 200.0;
 
   double get totalCost =>
-      (cylinderPrices[_selectedCylinderSize] ?? 0) + deliveryFee;
+      (cylinderPrices[_selectedCylinderSize] ?? 0) +
+      deliveryFee +
+      (widget.deliveryType == 'Express' ? widget.extraCharges.toDouble() : 0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _backgroundColor,
       appBar: AppBar(
-        title: const Text('Request Gas Delivery'),
+        title: Text('${widget.deliveryType} Delivery Request'),
         backgroundColor: _primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -62,18 +74,22 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header with icon
+            // Header with delivery type information
             Center(
               child: Column(
                 children: [
                   Icon(
-                    Icons.local_gas_station,
+                    widget.deliveryType == 'Express'
+                        ? Icons.flash_on
+                        : Icons.timer,
                     size: 50,
-                    color: _primaryColor,
+                    color: widget.deliveryType == 'Express'
+                        ? _warningColor
+                        : _primaryColor,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Gas Delivery Request',
+                    '${widget.deliveryType} Delivery',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -82,10 +98,65 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    'Fill in the details below to place your order',
+                    'Estimated delivery: ${widget.deliveryTime}',
                     style: TextStyle(
                       fontSize: 14,
                       color: _hintColor,
+                    ),
+                  ),
+                  if (widget.deliveryType == 'Express') ...[
+                    const SizedBox(height: 5),
+                    Text(
+                      'Extra charge: Ksh ${widget.extraCharges}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: _warningColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Delivery Type Badge
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              decoration: BoxDecoration(
+                color: widget.deliveryType == 'Express'
+                    ? _warningColor.withOpacity(0.1)
+                    : _primaryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: widget.deliveryType == 'Express'
+                      ? _warningColor.withOpacity(0.3)
+                      : _primaryColor.withOpacity(0.3),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    widget.deliveryType == 'Express'
+                        ? Icons.flash_on
+                        : Icons.timer,
+                    color: widget.deliveryType == 'Express'
+                        ? _warningColor
+                        : _primaryColor,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${widget.deliveryType} Delivery - ${widget.deliveryTime}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: widget.deliveryType == 'Express'
+                          ? _warningColor
+                          : _primaryColor,
                     ),
                   ),
                 ],
@@ -313,14 +384,20 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
                   _buildSectionHeader('Order Summary'),
                   const SizedBox(height: 15),
                   _buildCostRow('Gas Cost (${_selectedCylinderSize})',
-                      '\$${cylinderPrices[_selectedCylinderSize]?.toStringAsFixed(2)}'),
+                      'Ksh ${cylinderPrices[_selectedCylinderSize]?.toStringAsFixed(0)}'),
                   const SizedBox(height: 10),
                   _buildCostRow(
-                      'Delivery Fee', '\$${deliveryFee.toStringAsFixed(2)}'),
+                      'Delivery Fee', 'Ksh ${deliveryFee.toStringAsFixed(0)}'),
+                  if (widget.deliveryType == 'Express') ...[
+                    const SizedBox(height: 10),
+                    _buildCostRow('Express Delivery Fee',
+                        'Ksh ${widget.extraCharges.toStringAsFixed(0)}',
+                        isExpress: true),
+                  ],
                   const SizedBox(height: 15),
                   const Divider(height: 1),
                   const SizedBox(height: 15),
-                  _buildCostRow('Total:', '\$${totalCost.toStringAsFixed(2)}',
+                  _buildCostRow('Total:', 'Ksh ${totalCost.toStringAsFixed(0)}',
                       isTotal: true),
                 ],
               ),
@@ -403,7 +480,8 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
     );
   }
 
-  Widget _buildCostRow(String label, String value, {bool isTotal = false}) {
+  Widget _buildCostRow(String label, String value,
+      {bool isTotal = false, bool isExpress = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -412,7 +490,11 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
           style: TextStyle(
             fontSize: isTotal ? 16 : 14,
             fontWeight: isTotal ? FontWeight.w700 : FontWeight.w500,
-            color: isTotal ? _primaryColor : _textColor,
+            color: isTotal
+                ? _primaryColor
+                : isExpress
+                    ? _warningColor
+                    : _textColor,
           ),
         ),
         Text(
@@ -420,7 +502,11 @@ class _OrderRequestScreenState extends State<OrderRequestScreen> {
           style: TextStyle(
             fontSize: isTotal ? 18 : 14,
             fontWeight: isTotal ? FontWeight.w800 : FontWeight.w600,
-            color: isTotal ? _primaryColor : _textColor,
+            color: isTotal
+                ? _primaryColor
+                : isExpress
+                    ? _warningColor
+                    : _textColor,
           ),
         ),
       ],

@@ -24,13 +24,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'title': 'Track Your Order',
       'description':
           'Real-time tracking of your gas delivery from our depot to your location',
-      'image': 'assets/images/trackgasorder.jpg',
+      'image':
+          'assets/images/trackorder.jpg', // Use trackorder.jpg for tracking screen
     },
     {
       'title': 'Safe & Secure',
       'description':
           'Our delivery personnel are trained professionals ensuring safe handling of your gas cylinders',
-      'image': 'assets/images/trackorder.jpg',
+      'image':
+          'assets/images/letagaslogo.png', // Use a different image for safety screen
     },
   ];
 
