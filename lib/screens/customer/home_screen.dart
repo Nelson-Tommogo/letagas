@@ -231,24 +231,76 @@ class _HomeContentState extends State<HomeContent> {
           ),
         ),
 
-        // Hamburger icon (top right, always visible)
+        // Hamburger icon (top right, now functional)
         Positioned(
           top: MediaQuery.of(context).padding.top + 16,
           right: 16,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+          child: PopupMenuButton<String>(
+            icon: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.menu, color: Color(0xFF2B2D42)),
+              padding: const EdgeInsets.all(10),
             ),
-            child: const Icon(Icons.menu, color: Color(0xFF2B2D42)),
-            padding: const EdgeInsets.all(10),
+            onSelected: (value) {
+              if (value == 'profile') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                );
+              } else if (value == 'orders') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const OrderTrackingScreen()),
+                );
+              } else if (value == 'support') {
+                _navigateToSupport();
+              } else if (value == 'logout') {
+                // Add your logout logic here
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Logged out')),
+                );
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'profile',
+                child: ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('Profile'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'orders',
+                child: ListTile(
+                  leading: Icon(Icons.history),
+                  title: Text('Order History'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'support',
+                child: ListTile(
+                  leading: Icon(Icons.support_agent),
+                  title: Text('Support'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'logout',
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Logout'),
+                ),
+              ),
+            ],
           ),
         ),
 

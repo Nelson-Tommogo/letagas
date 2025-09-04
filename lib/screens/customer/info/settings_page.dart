@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../auth/reset_password_screen.dart'; // <-- corrected import
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -171,7 +172,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   _buildSettingItem(
                     title: 'Change Password',
                     icon: Icons.lock,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ResetPasswordScreen(),
+                        ),
+                      );
+                    },
                   ),
                   const Divider(height: 1, indent: 16),
                   _buildSettingItem(
