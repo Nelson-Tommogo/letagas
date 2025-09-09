@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../widgets/bottom_nav.dart';
 import '../../widgets/custom_button.dart';
@@ -52,6 +53,11 @@ class _HomeContentState extends State<HomeContent> {
   final TextEditingController _addressController = TextEditingController();
   List<String> _searchHistory = [];
   final FocusNode _addressFocusNode = FocusNode();
+  GoogleMapController? _mapController;
+  static const CameraPosition _initialPosition = CameraPosition(
+    target: LatLng(-1.286389, 36.817223), // Nairobi CBD
+    zoom: 13,
+  );
 
   @override
   void initState() {
@@ -208,26 +214,16 @@ class _HomeContentState extends State<HomeContent> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Map background
-        Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: const Color(0xFFF8F9FA),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.map, size: 100, color: Color(0xFF8D99AE)),
-                const SizedBox(height: 10),
-                Text(
-                  "Map View",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: const Color(0xFF8D99AE),
-                  ),
-                ),
-              ],
-            ),
+        // Google Map background
+        SizedBox.expand(
+          child: GoogleMap(
+            initialCameraPosition: _initialPosition,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            zoomControlsEnabled: false,
+            onMapCreated: (controller) {
+              _mapController = controller;
+            },
           ),
         ),
 
