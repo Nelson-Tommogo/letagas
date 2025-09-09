@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyBeZcBXMfDTR_PrycPOUbAnyWMOB3SwexY"/><manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:label="letagas"
         android:name="${applicationName}"
