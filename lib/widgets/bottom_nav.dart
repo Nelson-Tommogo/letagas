@@ -21,6 +21,10 @@ class BottomNav extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.storefront),
+          label: 'Market',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.track_changes),
           label: 'Track',
         ),

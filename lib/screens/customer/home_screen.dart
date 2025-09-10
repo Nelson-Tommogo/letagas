@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../widgets/bottom_nav.dart';
 import '../../widgets/custom_button.dart';
 import 'info/profile_screen.dart';
+import 'info/marketplace_page.dart'; // <-- Import MarketplacePage
 import 'order_request_screen.dart';
 import 'order_tracking_screen.dart';
 
@@ -18,9 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const HomeContent(),
-    const OrderTrackingScreen(),
-    const ProfileScreen(),
+    const HomeContent(),         // Home
+    const MarketplacePage(),     // Marketplace
+    const OrderTrackingScreen(), // Track
+    const ProfileScreen(),       // Profile
   ];
 
   @override
